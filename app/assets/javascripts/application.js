@@ -13,5 +13,17 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require turbolinks
 //= require_tree .
+
+$(document).ready(function(){
+  $('.destroy').on('click', function(){
+    if(confirm("Are you sure?")){
+      $.ajax({
+        url: '/products/' + this.parents('td').id,
+        type: 'DELETE',
+        success: function(data) {
+        }
+      });
+    }
+  });
+});
