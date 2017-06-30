@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.all
+    @products = Product.all.newest
   end
 
   def show
@@ -13,7 +13,16 @@ class ProductsController < ApplicationController
 
   def create
     @products = Product.all
-    @product = Product.create product_params
+    @product = Product.new product_params
+    if @product.save
+      respond_to do |format|
+        format.html
+        format.js
+        format.json do
+          render json: {id_product: @product.id}
+        end
+      end
+    end
   end
 
   def edit

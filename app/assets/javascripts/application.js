@@ -12,18 +12,50 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require bootstrap
 //= require_tree .
+//= require data-confirm-modal
+
+// $(document).ready(function(){
+//   $('.destroy').on('click', function(){
+//     if(confirm("Are you sure?")){
+//       $.ajax({
+//         url: '/products/' + this.parents('td').id,
+//         type: 'DELETE',
+//         success: function(data) {
+//         }
+//       });
+//     }
+//   });
+// });
 
 $(document).ready(function(){
-  $('.destroy').on('click', function(){
-    if(confirm("Are you sure?")){
-      $.ajax({
-        url: '/products/' + this.parents('td').id,
-        type: 'DELETE',
-        success: function(data) {
+  $('#submit_new_product').click(function(){
+    var name = $('#name_product').val();
+    var price = $('#price_product').val();
+    $.ajax({
+      url: '/products',
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        product: {
+          name: name,
+          price: price
         }
-      });
-    }
+      },
+      success: function(response){
+        id = response.id_product;
+        html = $('tbody').html();
+        html += '<tr data-id="'+id+'"><td>'+name+'</td><td>$'+price+'</td>'+
+          '<td><a class="btn btn-default" data-remote="true" href="/products/'+id+
+          '/edit">Edit</a></td><td><a class="btn btn-danger" data-remote="true" href="/products/'+id+
+          '/delete">Delete</a></td><td><a class="btn btn-danger btn_destroy_ajax" href="">Delete Jquery Ajax</a></td></tr>';
+        html = $('tbody').html(html);
+      },
+      error: function(response){
+        alert("error");
+      }
+    })
   });
 });

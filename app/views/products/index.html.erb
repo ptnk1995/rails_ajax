@@ -2,6 +2,8 @@
   <div class="well">
     <%= link_to "New Product", new_product_path, remote: true,
       class: "btn btn-primary" %>
+      <%= link_to "New Product Ajax Jquery", "#new-product-modal",
+      class: "btn btn-primary", data: {toggle: "modal"}  %>
   </div>
   <div class="new-product"></div>
 
@@ -20,3 +22,5 @@
   </table>
 </div>
 <div id="product-modal" class="modal fade"></div>
+
+<%= render "form_jq" %>
